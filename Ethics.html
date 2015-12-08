@@ -1,0 +1,1025 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title></title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Ethics</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+Verification of Spinoza's proof of the existence of God from the <i>Ethics</i>, using Charles Jarrett's formalization from <i>The Logical Structure of Spinoza's Ethics</i> (http://www.jstor.org/stable/20115250). The multimodal logic used in the proofs is implemented separately in the <span class="inlinecode"><span class="id" title="var">MML.v</span></span> library. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">Classical</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">MML</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab1"></a><h1 class="section">Predicates</h1>
+
+</div>
+<div class="code">
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">At</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is an attribute. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">At</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Fr</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is free. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Fr</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">De</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is (an instance of) desire. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">De</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Et</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is eternal. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Et</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Fn</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is finite. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Fn</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Gd</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is a god. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Gd</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Lv</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is (an instance of) love. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Lv</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Id</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is an idea. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Id</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Mo</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is a mode. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Mo</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Su</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is a substance. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Su</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Tr</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is true. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Tr</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">It</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is an intellect. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">It</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Wl</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"></span> := x is a will. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Wl</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">AO</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x is an attribute of y. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">AO</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Cv</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x is conceived through y.    
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Cv</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Ag</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x agrees with y. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Ag</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">In</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x is in y. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">In</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Ca</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x is a cause of y. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Ca</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Lm</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x limits y. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Lm</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">MO</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x is a mode of y. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">MO</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">OO</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x is an object of y. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">OO</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">Pw</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x is the power of y. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">Pw</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">MR</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x has more reality than y. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">MR</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">MA</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"></span> := x has more attributes than y. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">MA</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">CT</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode"><span class="id" title="var">z</span></span> <span class="inlinecode"></span> := x is common to y and z. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Variable</span> <span class="id" title="var">CT</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab2"></a><h1 class="section">Definitions</h1>
+
+</div>
+<div class="code">
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+I. By that which is self—caused, I mean that of which the essence involves existence, or that of which the nature is only conceivable as existent. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">D1</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, ( <span class="id" title="var">Ca</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">m</span>~ (<span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">y</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Ca</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span>) )<br/>
+<span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">L</span> (<span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">y</span> <span class="id" title="var">m</span>= <span class="id" title="var">x</span>) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+II. A thing is called finite after its kind, when it can be limited by another thing of the same nature; for instance, a body is called finite because we always conceive another greater body. So, also, a thought is limited by another thought, but a body is not limited by thought, nor a thought by body. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">D2</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Fn</span> <span class="id" title="var">x</span><br/>
+<span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">y</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Lm</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> <br/>
+<span class="id" title="var">m</span>/\ <span class="id" title="var">mforall</span> <span class="id" title="var">z</span> : <span class="id" title="var">u</span>, <span class="id" title="var">AO</span> <span class="id" title="var">z</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">AO</span> <span class="id" title="var">z</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+III. By substance, I mean that which is in itself, and is conceived through itself: in other words, that of which a conception can be formed independently of any other conception. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">D3</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+IV. By attribute, I mean that which the intellect perceives as constituting the essence of substance. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">D4a</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">At</span> <span class="id" title="var">x</span> <br/>
+<span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, ( <span class="id" title="var">Su</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <br/>
+<span class="id" title="var">m</span>/\ <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">In</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Cv</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> ) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">D4b</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">AO</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>&lt;-&gt; ( <span class="id" title="var">At</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Cv</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> ) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+V. By mode, I mean the modifications of substance, or that which exists in, and is conceived through, something other than itself. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">D5a</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">MO</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>&lt;-&gt; ( <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span>  <span class="id" title="var">m</span>/\ <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">D5b</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">Mo</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">MO</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+VI. By God, I mean a being absolutely infinite—that is, a substance consisting in infinite attributes, of which each expresses eternal and infinite essentiality. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">D6</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">Gd</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;-&gt; (<span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">At</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">AO</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span>) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+VII. That thing is called free, which exists solely by the necessity of its own nature, and of which the action is determined by itself alone. On the other hand, that thing is necessary, or rather constrained, which is determined by something external to itself to a fixed and definite method of existence or action. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">D7</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>&lt;-&gt; ( ( <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y</span> <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">L</span> ( ( <span class="id" title="var">mexists</span> <span class="id" title="var">v</span> : <span class="id" title="var">u</span>, <span class="id" title="var">v</span> <span class="id" title="var">m</span>= <span class="id" title="var">x</span> ) <br/>
+<span class="id" title="var">m</span>-&gt; ( <span class="id" title="var">mexists</span> <span class="id" title="var">v</span> : <span class="id" title="var">u</span>, <span class="id" title="var">v</span> <span class="id" title="var">m</span>= <span class="id" title="var">y</span> ) ) ) <br/>
+<span class="id" title="var">m</span>/\ ( ( <span class="id" title="var">x</span> <span class="id" title="var">m</span>= <span class="id" title="var">y</span> ) <span class="id" title="var">m</span>-&gt; ( <span class="id" title="var">m</span>~ <span class="id" title="var">mexists</span> <span class="id" title="var">z</span> : <span class="id" title="var">u</span>, <br/>
+&nbsp;<span class="id" title="var">z</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">L</span> ( ( <span class="id" title="var">mexists</span> <span class="id" title="var">v</span> : <span class="id" title="var">u</span>, <span class="id" title="var">v</span> <span class="id" title="var">m</span>= <span class="id" title="var">x</span> )<br/>
+<span class="id" title="var">m</span>-&gt; ( <span class="id" title="var">mexists</span> <span class="id" title="var">v</span> : <span class="id" title="var">u</span>, <span class="id" title="var">v</span> <span class="id" title="var">m</span>= <span class="id" title="var">z</span> ) ) ) ) ) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+VIII. By eternity, I mean existence itself, in so far as it is conceived necessarily to follow solely from the definition of that which is eternal. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">D8</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">Et</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">L</span> ( <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">y</span> <span class="id" title="var">m</span>= <span class="id" title="var">x</span> ) ].<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab3"></a><h1 class="section">Axioms</h1>
+
+</div>
+<div class="code">
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+I. Everything which exists, exists either in itself or in something else. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A1</span> : 	<br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>\/ <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">y</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+II. That which cannot be conceived through anything else must be conceived through itself. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A2</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+( <span class="id" title="var">m</span>~ <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ) <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+III. From a given definite cause an effect necessarily follows; and, on the other hand, if no definite cause be granted, it is impossible that an effect can follow. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A3</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Ca</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">N</span> ( ( <span class="id" title="var">mexists</span> <span class="id" title="var">u</span> : <span class="id" title="var">u</span>, <span class="id" title="var">u</span> <span class="id" title="var">m</span>= <span class="id" title="var">y</span> ) <br/>
+<span class="id" title="var">m</span>&lt;-&gt; ( <span class="id" title="var">mexists</span> <span class="id" title="var">u</span>, <span class="id" title="var">u</span> <span class="id" title="var">m</span>= <span class="id" title="var">x</span> ) ) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+IV. The knowledge of an effect depends on and involves the knowledge of a cause.
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A4</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Ca</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">Cv</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+V. Things which have nothing in common cannot be understood, the one by means of the other; the conception of one does not involve the conception of the other. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A5</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">m</span>~ ( <span class="id" title="var">mexists</span> <span class="id" title="var">z</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">CT</span> <span class="id" title="var">z</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ) <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">m</span>~ <span class="id" title="var">Cv</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+VI. A true idea must correspond with its ideate or object. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A6</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Id</span> <span class="id" title="var">x</span><br/>
+<span class="id" title="var">m</span>-&gt; ( <span class="id" title="var">Tr</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">OO</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Ag</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+VII. If a thing can be conceived as non—existing, its essence does not involve existence. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A7</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">M</span> ( <span class="id" title="var">m</span>~ <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">y</span> <span class="id" title="var">m</span>= <span class="id" title="var">x</span> )  <br/>
+<span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">L</span> ( <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">y</span> <span class="id" title="var">m</span>= <span class="id" title="var">x</span> ) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Axioms 8-13, 18 are suppressed premises from Jarrett's formalization. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A8</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A9</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">AO</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A10</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Su</span> <span class="id" title="var">y</span> <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">MR</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">MA</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A11</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Lm</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Su</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A12</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+( <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">MO</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ) <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Mo</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A13</span> : <br/>
+[ <span class="id" title="var">M</span> ( <span class="id" title="var">mexists</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Gd</span> <span class="id" title="var">x</span>) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Axiom</span> <span class="id" title="var">A18</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Su</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">MR</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">MA</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab4"></a><h1 class="section">Derived Premises</h1>
+
+</div>
+<div class="code">
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">DP1</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">DP2</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">DP3</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">At</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">DP4</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">DP5</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>\/ <span class="id" title="var">Mo</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">DP6</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">m</span>~ ( <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Mo</span> <span class="id" title="var">x</span> ) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">DP7</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">AO</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Su</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">x</span> <span class="id" title="var">m</span>= <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Derived premises I-III are my additions. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">DPI</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, (<span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">m</span>~ <span class="id" title="var">Mo</span> <span class="id" title="var">x</span>) <br/>
+&nbsp;&nbsp;<span class="id" title="var">m</span>\/ (<span class="id" title="var">m</span>~ <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Mo</span> <span class="id" title="var">x</span>) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">DPII</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">AO</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Resolve</span> <span class="id" title="var">DPII</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">DPIII</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;-&gt; <span class="id" title="var">Ca</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We also prove some simple tauotologies for proof simplication. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">modus_tollens</span> : <span class="id" title="keyword">forall</span> <span class="id" title="var">P</span> <span class="id" title="var">Q</span> : <span class="id" title="keyword">Prop</span>,<br/>
+( <span class="id" title="var">P</span> -&gt; <span class="id" title="var">Q</span> ) &lt;-&gt; ( ~ <span class="id" title="var">Q</span> -&gt; ~ <span class="id" title="var">P</span> ).<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">iff_neg</span> : <span class="id" title="keyword">forall</span> <span class="id" title="var">P</span> <span class="id" title="var">Q</span> : <span class="id" title="keyword">Prop</span>,<br/>
+( <span class="id" title="var">P</span> &lt;-&gt; <span class="id" title="var">Q</span> ) &lt;-&gt; ( ~ <span class="id" title="var">P</span> &lt;-&gt; ~ <span class="id" title="var">Q</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">ineq_sym</span> : <span class="id" title="keyword">forall</span> {<span class="id" title="var">X</span> : <span class="id" title="keyword">Type</span>} <br/>
+(<span class="id" title="var">x</span> <span class="id" title="var">y</span> : <span class="id" title="var">X</span>), <span class="id" title="var">x</span> &lt;&gt; <span class="id" title="var">y</span> -&gt; <span class="id" title="var">y</span> &lt;&gt; <span class="id" title="var">x</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab5"></a><h1 class="section">Propositions</h1>
+
+</div>
+<div class="code">
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+I. Substance is by nature prior to its modifications. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P1</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">MO</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">Su</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; ( <span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">In</span> <span class="id" title="var">y</span> <span class="id" title="var">y</span> ) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+II. Two substances, whose attributes are different, have nothing in common. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">P2L</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P2</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Su</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y</span> <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">mexists</span> <span class="id" title="var">z</span> : <span class="id" title="var">u</span>, <span class="id" title="var">CT</span> <span class="id" title="var">z</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+III. Things which have nothing in common cannot be one the cause of the other. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P3</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <br/>
+( <span class="id" title="var">m</span>~ <span class="id" title="var">mexists</span> <span class="id" title="var">z</span> : <span class="id" title="var">u</span>, <span class="id" title="var">CT</span> <span class="id" title="var">z</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ) <br/>
+<span class="id" title="var">m</span>-&gt; ( <span class="id" title="var">m</span>~ <span class="id" title="var">Ca</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">m</span>~ <span class="id" title="var">Ca</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> ) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+IV. Two or more distinct things are distinguished one from the other, either by the difference of the attributes of the substances, or by the difference of their modifications. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P4</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">mexists</span> <span class="id" title="var">z</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mexists</span> <span class="id" title="var">z&acute;</span> : <span class="id" title="var">u</span>, <br/>
+( ( <span class="id" title="var">AO</span> <span class="id" title="var">z</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">AO</span> <span class="id" title="var">z&acute;</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">z</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">z&acute;</span> ) <br/>
+<span class="id" title="var">m</span>\/ ( <span class="id" title="var">AO</span> <span class="id" title="var">z</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ ( <span class="id" title="var">z</span> <span class="id" title="var">m</span>= <span class="id" title="var">x</span> ) <span class="id" title="var">m</span>/\ <span class="id" title="var">Mo</span> <span class="id" title="var">y</span> )<br/>
+<span class="id" title="var">m</span>\/ ( <span class="id" title="var">AO</span> <span class="id" title="var">z&acute;</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ ( <span class="id" title="var">z&acute;</span> <span class="id" title="var">m</span>= <span class="id" title="var">y</span> ) <span class="id" title="var">m</span>/\ <span class="id" title="var">Mo</span> <span class="id" title="var">x</span> ) <br/>
+<span class="id" title="var">m</span>\/ ( <span class="id" title="var">Mo</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Mo</span> <span class="id" title="var">y</span> ) ) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+V. There cannot exist in the universe two or more substances having the same nature or attribute. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P5</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Su</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y</span> <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">mexists</span> <span class="id" title="var">w</span>, <span class="id" title="var">AO</span> <span class="id" title="var">w</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">AO</span> <span class="id" title="var">w</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+VI. One substance cannot be produced by another substance. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P6</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Su</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y</span> <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">Ca</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">m</span>~ <span class="id" title="var">Ca</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P6c</span>: [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <br/>
+<span class="id" title="var">m</span>~ <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">y</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">Ca</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+VII. Existence belongs to the nature of substances. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P7</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">L</span> ( <span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">y</span> <span class="id" title="var">m</span>= <span class="id" title="var">x</span> ) ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+VIII. Every substance is necessarily infinite. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P8</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">Fn</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+IX. The more reality or being a thing has, the greater the number of its attributes (Def. iv.). 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P9</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Su</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">MR</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">MA</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+X. Each particular attribute of the one substance must be conceived through itself. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P10</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">At</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Cv</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+XI. God, or substance, consisting of infinite attributes, of which each expresses eternal and infinite essentiality, necessarily exists. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">P11L0</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <br/>
+<span class="id" title="var">L</span> ( ( <span class="id" title="var">L</span> ( <span class="id" title="var">mexists</span> <span class="id" title="var">y</span>, <span class="id" title="var">y</span> <span class="id" title="var">m</span>= <span class="id" title="var">x</span> ) ) <span class="id" title="var">m</span>-&gt; <span class="id" title="var">Su</span> <span class="id" title="var">x</span> ) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">P11L1</span> :<br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">L</span> (<span class="id" title="var">Su</span> <span class="id" title="var">x</span>) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">P11L2</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">m</span>~ ( <span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">In</span> <span class="id" title="var">x</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">In</span> <span class="id" title="var">y</span> <span class="id" title="var">y</span> ) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">P11L3</span> :<br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ ( <span class="id" title="var">L</span> ( <span class="id" title="var">Gd</span> <span class="id" title="var">x</span> ) )<br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">M</span> (<span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">At</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">m</span>~ <span class="id" title="var">AO</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span>) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">P11L4</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">M</span> (<span class="id" title="var">mexists</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <span class="id" title="var">At</span> <span class="id" title="var">y</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">m</span>~ <span class="id" title="var">AO</span> <span class="id" title="var">y</span> <span class="id" title="var">x</span>) <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">M</span> ( <span class="id" title="var">mexists</span> <span class="id" title="var">x0</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mexists</span> <span class="id" title="var">y0</span> : <span class="id" title="var">u</span>,<br/>
+<span class="id" title="var">x0</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y0</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">In</span> <span class="id" title="var">x0</span> <span class="id" title="var">x0</span> <span class="id" title="var">m</span>/\ <span class="id" title="var">In</span> <span class="id" title="var">y0</span> <span class="id" title="var">y0</span> ) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">P11L5</span> :<br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Su</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">L</span> (<span class="id" title="var">Gd</span> <span class="id" title="var">x</span>) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">P11L6</span> :<br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Gd</span> <span class="id" title="var">x</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">L</span> (<span class="id" title="var">Gd</span> <span class="id" title="var">x</span>) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">P11L7</span> :<br/>
+[ <span class="id" title="var">L</span> ((<span class="id" title="var">mexists</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Gd</span> <span class="id" title="var">x</span>) <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">L</span> (<span class="id" title="var">mexists</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Gd</span> <span class="id" title="var">x</span>)) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">P11</span> : [ <span class="id" title="var">L</span> (<span class="id" title="var">mexists</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Gd</span> <span class="id" title="var">x</span>) ].<br/>
+
+<br/>
+</div>
+<table>
+<tr>
+<td>Global Index</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td><a href="index.html#global_E">E</a></td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>_</td>
+<td>other</td>
+<td>(1 entry)</td>
+</tr>
+<tr>
+<td>Library Index</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td><a href="index.html#library_E">E</a></td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>_</td>
+<td>other</td>
+<td>(1 entry)</td>
+</tr>
+</table>
+<hr/>
+<h1>Global Index</h1>
+<a name="global_E"></a><h2>E </h2>
+<a href="Ethics.html">Ethics</a> [library]<br/>
+<br/><br/><hr/>
+<h1>Library Index</h1>
+<a name="library_E"></a><h2>E </h2>
+<a href="Ethics.html">Ethics</a> <br/>
+<br/><br/><hr/><table>
+<tr>
+<td>Global Index</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td><a href="index.html#global_E">E</a></td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>_</td>
+<td>other</td>
+<td>(1 entry)</td>
+</tr>
+<tr>
+<td>Library Index</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td><a href="index.html#library_E">E</a></td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>_</td>
+<td>other</td>
+<td>(1 entry)</td>
+</tr>
+</table>
+<hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

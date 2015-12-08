@@ -1,0 +1,570 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title></title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library MML</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+Coq implementation of the multimodal logic used in Charles Jarrett's <i>The Logical Structure of Spinoza's Ethics</i> (http://www.jstor.org/stable/20115250). It is an adaptation of Christoph Benzmüller and Bruno Woltzenlogel Paleo's <i>Interacting with Modal Logics in the Coq Proof Assistant</i> (http://page.mi.fu-berlin.de/cbenzmueller/papers/C44.pdf), modified to use four modal operators with appropriate accessibility relations. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">Classical</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">Coq.Logic.Classical_Pred_Type</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab1"></a><h1 class="section">Syntax</h1>
+
+</div>
+<div class="code">
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">i</span></span> <span class="inlinecode"></span> := the type of worlds. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Parameter</span> <span class="id" title="var">i</span> : <span class="id" title="keyword">Type</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">u</span></span> <span class="inlinecode"></span> := the type of individuals. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Parameter</span> <span class="id" title="var">u</span> : <span class="id" title="keyword">Type</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"></span> <span class="inlinecode"><span class="id" title="var">o</span></span> <span class="inlinecode"></span> := the type of modal propositions. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">o</span> := <span class="id" title="var">i</span> -&gt; <span class="id" title="keyword">Prop</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab2"></a><h2 class="section">Accessibility Relations</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <span class="id" title="var">s</span> : <span class="id" title="var">i</span> -&gt; <span class="id" title="var">i</span> -&gt; <span class="id" title="keyword">Prop</span> := <br/>
+| <span class="id" title="var">s_reflexivity</span> : <span class="id" title="keyword">forall</span> <span class="id" title="var">w</span>, <span class="id" title="var">s</span> <span class="id" title="var">w</span> <span class="id" title="var">w</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <span class="id" title="var">r</span> : <span class="id" title="var">i</span> -&gt; <span class="id" title="var">i</span> -&gt; <span class="id" title="keyword">Prop</span> := <br/>
+| <span class="id" title="var">r_s</span> : <span class="id" title="keyword">forall</span> <span class="id" title="var">w1</span> <span class="id" title="var">w2</span>, <span class="id" title="var">s</span> <span class="id" title="var">w1</span> <span class="id" title="var">w2</span> -&gt; <span class="id" title="var">r</span> <span class="id" title="var">w1</span> <span class="id" title="var">w2</span><br/>
+| <span class="id" title="var">r_symmetry</span>: <span class="id" title="keyword">forall</span> <span class="id" title="var">w1</span> <span class="id" title="var">w2</span>, (<span class="id" title="var">r</span> <span class="id" title="var">w1</span> <span class="id" title="var">w2</span>) -&gt; (<span class="id" title="var">r</span> <span class="id" title="var">w2</span> <span class="id" title="var">w1</span>)<br/>
+| <span class="id" title="var">r_transitivity</span>: <span class="id" title="keyword">forall</span> <span class="id" title="var">w1</span> <span class="id" title="var">w2</span> <span class="id" title="var">w3</span>, (<span class="id" title="var">r</span> <span class="id" title="var">w1</span> <span class="id" title="var">w2</span>) -&gt; (<span class="id" title="var">r</span> <span class="id" title="var">w2</span> <span class="id" title="var">w3</span>) -&gt; (<span class="id" title="var">r</span> <span class="id" title="var">w1</span> <span class="id" title="var">w3</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">r_reflexivity</span> : <span class="id" title="keyword">forall</span> <span class="id" title="var">w</span>, <span class="id" title="var">r</span> <span class="id" title="var">w</span> <span class="id" title="var">w</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab3"></a><h2 class="section">Equality</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">mequal</span> (<span class="id" title="var">x</span> <span class="id" title="var">y</span>: <span class="id" title="var">u</span>)(<span class="id" title="var">w</span>: <span class="id" title="var">i</span>) := <span class="id" title="var">x</span> = <span class="id" title="var">y</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;x m= y" := (<span class="id" title="var">mequal</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>).<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">mneq</span> (<span class="id" title="var">x</span> <span class="id" title="var">y</span>: <span class="id" title="var">u</span>)(<span class="id" title="var">w</span>: <span class="id" title="var">i</span>) := <span class="id" title="var">x</span> &lt;&gt; <span class="id" title="var">y</span> .<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;x m&lt;&gt; y" := (<span class="id" title="var">mneq</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 74, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab4"></a><h2 class="section">Connectives</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">mnot</span> (<span class="id" title="var">p</span>: <span class="id" title="var">o</span>)(<span class="id" title="var">w</span>: <span class="id" title="var">i</span>) := ~ (<span class="id" title="var">p</span> <span class="id" title="var">w</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;m~ p" := (<span class="id" title="var">mnot</span> <span class="id" title="var">p</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 74, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">mand</span> (<span class="id" title="var">p</span> <span class="id" title="var">q</span>:<span class="id" title="var">o</span>)(<span class="id" title="var">w</span>: <span class="id" title="var">i</span>) := (<span class="id" title="var">p</span> <span class="id" title="var">w</span>) /\ (<span class="id" title="var">q</span> <span class="id" title="var">w</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;p m/\ q" := (<span class="id" title="var">mand</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 79, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">mor</span> (<span class="id" title="var">p</span> <span class="id" title="var">q</span>:<span class="id" title="var">o</span>)(<span class="id" title="var">w</span>: <span class="id" title="var">i</span>) := (<span class="id" title="var">p</span> <span class="id" title="var">w</span>) \/ (<span class="id" title="var">q</span> <span class="id" title="var">w</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;p m\/ q" := (<span class="id" title="var">mor</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 79, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">mimplies</span> (<span class="id" title="var">p</span> <span class="id" title="var">q</span>:<span class="id" title="var">o</span>)(<span class="id" title="var">w</span>:<span class="id" title="var">i</span>) := (<span class="id" title="var">p</span> <span class="id" title="var">w</span>) -&gt; (<span class="id" title="var">q</span> <span class="id" title="var">w</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;p m-&gt; q" := (<span class="id" title="var">mimplies</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">mequiv</span> (<span class="id" title="var">p</span> <span class="id" title="var">q</span>:<span class="id" title="var">o</span>)(<span class="id" title="var">w</span>:<span class="id" title="var">i</span>) := (<span class="id" title="var">p</span> <span class="id" title="var">w</span>) &lt;-&gt; (<span class="id" title="var">q</span> <span class="id" title="var">w</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;p m&lt;-&gt; q" := (<span class="id" title="var">mequiv</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab5"></a><h2 class="section">Quantifiers</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">A</span> {<span class="id" title="var">t</span>: <span class="id" title="keyword">Type</span>} (<span class="id" title="var">p</span>: <span class="id" title="var">t</span> -&gt; <span class="id" title="var">o</span>) (<span class="id" title="var">w</span>: <span class="id" title="var">i</span>) <br/>
+:= <span class="id" title="keyword">forall</span> <span class="id" title="var">x</span>, <span class="id" title="var">p</span> <span class="id" title="var">x</span> <span class="id" title="var">w</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;&acute;mforall&acute; x, p" := <br/>
+(<span class="id" title="var">A</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> =&gt; <span class="id" title="var">p</span>)) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 200, <span class="id" title="var">x</span> <span class="id" title="var">ident</span>, <br/>
+<span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>) : <span class="id" title="var">type_scope</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;&acute;mforall&acute; x : t , p" := <br/>
+(<span class="id" title="var">A</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">x</span>:<span class="id" title="var">t</span> =&gt; <span class="id" title="var">p</span>)) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 200, <span class="id" title="var">x</span> <span class="id" title="var">ident</span>, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>,<br/>
+<span class="id" title="var">format</span> "'[' 'mforall' '/ ' x : t , '/ ' p ']'") : <span class="id" title="var">type_scope</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">E</span> {<span class="id" title="var">t</span>: <span class="id" title="keyword">Type</span>} (<span class="id" title="var">p</span>: <span class="id" title="var">t</span> -&gt; <span class="id" title="var">o</span>) (<span class="id" title="var">w</span>: <span class="id" title="var">i</span>) <br/>
+:= <span class="id" title="tactic">exists</span> <span class="id" title="var">x</span> : <span class="id" title="var">t</span>, <span class="id" title="var">p</span> <span class="id" title="var">x</span> <span class="id" title="var">w</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;&acute;mexists&acute; x , p" := (<span class="id" title="var">E</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> =&gt; <span class="id" title="var">p</span>)) <br/>
+(<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 200, <span class="id" title="var">x</span> <span class="id" title="var">ident</span>, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>) : <span class="id" title="var">type_scope</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;&acute;mexists&acute; x : t , p" := <br/>
+(<span class="id" title="var">E</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">x</span>:<span class="id" title="var">t</span> =&gt; <span class="id" title="var">p</span>)) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 200, <span class="id" title="var">x</span> <span class="id" title="var">ident</span>, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>, <br/>
+<span class="id" title="var">format</span> "'[' 'mexists' '/ ' x : t , '/ ' p ']'") : <span class="id" title="var">type_scope</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab6"></a><h2 class="section">Modal Operators</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">L</span> (<span class="id" title="var">p</span>: <span class="id" title="var">o</span>) := <br/>
+<span class="id" title="keyword">fun</span> <span class="id" title="var">w</span> =&gt; <span class="id" title="keyword">forall</span> <span class="id" title="var">w1</span>, (<span class="id" title="var">r</span> <span class="id" title="var">w</span> <span class="id" title="var">w1</span>) -&gt; (<span class="id" title="var">p</span> <span class="id" title="var">w1</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">M</span> (<span class="id" title="var">p</span>: <span class="id" title="var">o</span>) := <br/>
+<span class="id" title="keyword">fun</span> <span class="id" title="var">w</span> =&gt; <span class="id" title="tactic">exists</span> <span class="id" title="var">w1</span>, (<span class="id" title="var">r</span> <span class="id" title="var">w</span> <span class="id" title="var">w1</span>) /\ (<span class="id" title="var">p</span> <span class="id" title="var">w1</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">N</span> (<span class="id" title="var">p</span>: <span class="id" title="var">o</span>) := <br/>
+<span class="id" title="keyword">fun</span> <span class="id" title="var">w</span> =&gt; <span class="id" title="keyword">forall</span> <span class="id" title="var">w1</span>, (<span class="id" title="var">s</span> <span class="id" title="var">w</span> <span class="id" title="var">w1</span>) -&gt; (<span class="id" title="var">p</span> <span class="id" title="var">w1</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">P</span> (<span class="id" title="var">p</span>: <span class="id" title="var">o</span>) := <br/>
+<span class="id" title="keyword">fun</span> <span class="id" title="var">w</span> =&gt; <span class="id" title="tactic">exists</span> <span class="id" title="var">w1</span>, (<span class="id" title="var">s</span> <span class="id" title="var">w</span> <span class="id" title="var">w1</span>) /\ (<span class="id" title="var">p</span> <span class="id" title="var">w1</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab7"></a><h2 class="section">Modal Validity</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">V</span> (<span class="id" title="var">p</span>: <span class="id" title="var">o</span>) := <span class="id" title="keyword">forall</span> <span class="id" title="var">w</span>, <span class="id" title="var">p</span> <span class="id" title="var">w</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> &quot;[ p ]" := (<span class="id" title="var">V</span> <span class="id" title="var">p</span>).<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab8"></a><h1 class="section">Tactics</h1>
+
+</div>
+<div class="code">
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">L_i</span> := <br/>
+<span class="id" title="keyword">let</span> <span class="id" title="var">w</span> := <span class="id" title="tactic">fresh</span> "w" <span class="id" title="keyword">in</span> <br/>
+<span class="id" title="keyword">let</span> <span class="id" title="var">R</span> := <span class="id" title="tactic">fresh</span> "R" <span class="id" title="keyword">in</span> <br/>
+(<span class="id" title="tactic">intro</span> <span class="id" title="var">w</span> <span class="id" title="tactic">at</span> <span class="id" title="var">top</span>; <span class="id" title="tactic">intro</span> <span class="id" title="var">R</span> <span class="id" title="tactic">at</span> <span class="id" title="var">top</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">L_elim</span> <span class="id" title="var">H</span> <span class="id" title="var">w1</span> <span class="id" title="var">H1</span> :=<br/>
+<span class="id" title="keyword">match</span> <span class="id" title="var">type</span> <span class="id" title="var">of</span> <span class="id" title="var">H</span> <span class="id" title="keyword">with</span> ((<span class="id" title="var">L</span> ?<span class="id" title="var">p</span>) ?<span class="id" title="var">w</span>) =&gt; <span class="id" title="tactic">cut</span> (<span class="id" title="var">p</span> <span class="id" title="var">w1</span>);<br/>
+[<span class="id" title="tactic">intros</span> <span class="id" title="var">H1</span> | (<span class="id" title="tactic">apply</span> (<span class="id" title="var">H</span> <span class="id" title="var">w1</span>); <span class="id" title="tactic">try</span> <span class="id" title="tactic">assumption</span>)] <span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">L_e</span> <span class="id" title="var">H</span> <span class="id" title="var">H1</span>:=<br/>
+<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span> | [ |- (<span class="id" title="var">_</span> ?<span class="id" title="var">w</span>) ] =&gt; <span class="id" title="var">L_elim</span> <span class="id" title="var">H</span> <span class="id" title="var">w</span> <span class="id" title="var">H1</span> <span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">M_e</span> <span class="id" title="var">H</span> :=<br/>
+<span class="id" title="keyword">let</span> <span class="id" title="var">w</span> := <span class="id" title="tactic">fresh</span> "w" <span class="id" title="keyword">in</span> <span class="id" title="keyword">let</span> <span class="id" title="var">R</span> :=<br/>
+<span class="id" title="tactic">fresh</span> "R" <span class="id" title="keyword">in</span> (<span class="id" title="tactic">destruct</span> <span class="id" title="var">H</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">w</span> [<span class="id" title="var">R</span> <span class="id" title="var">H</span>]];<br/>
+<span class="id" title="tactic">move</span> <span class="id" title="var">w</span> <span class="id" title="tactic">at</span> <span class="id" title="var">top</span>; <span class="id" title="tactic">move</span> <span class="id" title="var">R</span> <span class="id" title="tactic">at</span> <span class="id" title="var">top</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">M_i</span> <span class="id" title="var">w</span> :=<br/>
+(<span class="id" title="tactic">exists</span> <span class="id" title="var">w</span>; <span class="id" title="tactic">split</span>; [<span class="id" title="tactic">assumption</span> | <span class="id" title="tactic">idtac</span>]).<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">N_i</span> := <br/>
+<span class="id" title="keyword">let</span> <span class="id" title="var">w</span> := <span class="id" title="tactic">fresh</span> "w" <span class="id" title="keyword">in</span> <br/>
+<span class="id" title="keyword">let</span> <span class="id" title="var">R</span> := <span class="id" title="tactic">fresh</span> "R" <span class="id" title="keyword">in</span> <br/>
+(<span class="id" title="tactic">intro</span> <span class="id" title="var">w</span> <span class="id" title="tactic">at</span> <span class="id" title="var">top</span>; <span class="id" title="tactic">intro</span> <span class="id" title="var">R</span> <span class="id" title="tactic">at</span> <span class="id" title="var">top</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">N_elim</span> <span class="id" title="var">H</span> <span class="id" title="var">w1</span> <span class="id" title="var">H1</span> :=<br/>
+<span class="id" title="keyword">match</span> <span class="id" title="var">type</span> <span class="id" title="var">of</span> <span class="id" title="var">H</span> <span class="id" title="keyword">with</span> ((<span class="id" title="var">N</span> ?<span class="id" title="var">p</span>) ?<span class="id" title="var">w</span>) =&gt; <span class="id" title="tactic">cut</span> (<span class="id" title="var">p</span> <span class="id" title="var">w1</span>);<br/>
+[<span class="id" title="tactic">intros</span> <span class="id" title="var">H1</span> | (<span class="id" title="tactic">apply</span> (<span class="id" title="var">H</span> <span class="id" title="var">w1</span>); <span class="id" title="tactic">try</span> <span class="id" title="tactic">assumption</span>)] <span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">N_e</span> <span class="id" title="var">H</span> <span class="id" title="var">H1</span>:=<br/>
+<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span> | [ |- (<span class="id" title="var">_</span> ?<span class="id" title="var">w</span>) ] =&gt; <span class="id" title="var">N_elim</span> <span class="id" title="var">H</span> <span class="id" title="var">w</span> <span class="id" title="var">H1</span> <span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">P_e</span> <span class="id" title="var">H</span> :=<br/>
+<span class="id" title="keyword">let</span> <span class="id" title="var">w</span> := <span class="id" title="tactic">fresh</span> "w" <span class="id" title="keyword">in</span> <span class="id" title="keyword">let</span> <span class="id" title="var">R</span> :=<br/>
+<span class="id" title="tactic">fresh</span> "R" <span class="id" title="keyword">in</span> (<span class="id" title="tactic">destruct</span> <span class="id" title="var">H</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">w</span> [<span class="id" title="var">R</span> <span class="id" title="var">H</span>]];<br/>
+<span class="id" title="tactic">move</span> <span class="id" title="var">w</span> <span class="id" title="tactic">at</span> <span class="id" title="var">top</span>; <span class="id" title="tactic">move</span> <span class="id" title="var">R</span> <span class="id" title="tactic">at</span> <span class="id" title="var">top</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">P_i</span> <span class="id" title="var">w</span> :=<br/>
+(<span class="id" title="tactic">exists</span> <span class="id" title="var">w</span>; <span class="id" title="tactic">split</span>; [<span class="id" title="tactic">assumption</span> | <span class="id" title="tactic">idtac</span>]).<br/>
+
+<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">mv</span> :=<br/>
+<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span> [|- (<span class="id" title="var">V</span> <span class="id" title="var">_</span>)] =&gt; <span class="id" title="tactic">intro</span> <span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab9"></a><h1 class="section">Derived Rules</h1>
+
+</div>
+<div class="code">
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">R1</span> :<br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <span class="id" title="var">L</span> <span class="id" title="var">p</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">N</span> <span class="id" title="var">p</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">sT</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, (<span class="id" title="var">N</span> <span class="id" title="var">p</span>) <span class="id" title="var">m</span>-&gt; <span class="id" title="var">p</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">rK</span>: <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">q</span> : <span class="id" title="var">o</span>,<br/>
+(<span class="id" title="var">L</span> (<span class="id" title="var">p</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">q</span>)) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">L</span> <span class="id" title="var">p</span>) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">L</span> <span class="id" title="var">q</span>) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">r5</span>: <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, (<span class="id" title="var">M</span> <span class="id" title="var">p</span>) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">L</span> (<span class="id" title="var">M</span> <span class="id" title="var">p</span>)) ].<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">rN</span> : <br/>
+<span class="id" title="keyword">forall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, [ <span class="id" title="var">p</span> ] -&gt; [ <span class="id" title="var">L</span> <span class="id" title="var">p</span> ] .<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">sK</span>: <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">q</span> : <span class="id" title="var">o</span>,<br/>
+(<span class="id" title="var">N</span> (<span class="id" title="var">p</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">q</span>)) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">N</span> <span class="id" title="var">p</span>) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">N</span> <span class="id" title="var">q</span>) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">rT</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, (<span class="id" title="var">L</span> <span class="id" title="var">p</span>) <span class="id" title="var">m</span>-&gt; <span class="id" title="var">p</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">r4</span>: <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <br/>
+(<span class="id" title="var">L</span> <span class="id" title="var">p</span>) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">L</span> (<span class="id" title="var">L</span> <span class="id" title="var">p</span>)) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">MT1</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">q</span> : <span class="id" title="var">o</span>, <br/>
+( <span class="id" title="var">p</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">q</span> ) <span class="id" title="var">m</span>-&gt; ( <span class="id" title="var">m</span>~ <span class="id" title="var">q</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">p</span> ) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">MT2</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">q</span> : <span class="id" title="var">o</span>, <br/>
+(<span class="id" title="var">m</span>~ <span class="id" title="var">p</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">q</span> ) <span class="id" title="var">m</span>-&gt; ( <span class="id" title="var">q</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">p</span> ) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">LMT</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">q</span> : <span class="id" title="var">o</span>, <br/>
+<span class="id" title="var">L</span> ( <span class="id" title="var">p</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">q</span> ) <span class="id" title="var">m</span>-&gt; <span class="id" title="var">L</span> ( <span class="id" title="var">m</span>~ <span class="id" title="var">q</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">p</span> ) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">NENA</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">Q</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>, <br/>
+(<span class="id" title="var">m</span>~ <span class="id" title="var">mexists</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">m</span>~ <span class="id" title="var">Q</span> <span class="id" title="var">x</span>) <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Q</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">NAEN</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">Q</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>, <br/>
+(<span class="id" title="var">m</span>~ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Q</span> <span class="id" title="var">x</span>) <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">mexists</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">m</span>~ <span class="id" title="var">Q</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">ANNE</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">Q</span> : <span class="id" title="var">u</span> -&gt; <span class="id" title="var">o</span>, <br/>
+(<span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">m</span>~ <span class="id" title="var">Q</span> <span class="id" title="var">x</span>) <br/>
+<span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ <span class="id" title="var">mexists</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">Q</span> <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">NMNL</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <br/>
+(<span class="id" title="var">m</span>~ (<span class="id" title="var">M</span> (<span class="id" title="var">m</span>~ <span class="id" title="var">p</span>)) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">L</span> <span class="id" title="var">p</span>)) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">NLNM</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <br/>
+(<span class="id" title="var">m</span>~ (<span class="id" title="var">L</span> (<span class="id" title="var">m</span>~ <span class="id" title="var">p</span>)) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">M</span> <span class="id" title="var">p</span>)) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">MNLN</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <br/>
+(<span class="id" title="var">M</span> <span class="id" title="var">p</span>) <span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ (<span class="id" title="var">L</span> (<span class="id" title="var">m</span>~ <span class="id" title="var">p</span>)) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">LNMN</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <br/>
+(<span class="id" title="var">L</span> <span class="id" title="var">p</span>) <span class="id" title="var">m</span>-&gt; <span class="id" title="var">m</span>~ (<span class="id" title="var">M</span> (<span class="id" title="var">m</span>~ <span class="id" title="var">p</span>)) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">NLMN</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <br/>
+<span class="id" title="var">m</span>~ (<span class="id" title="var">L</span> <span class="id" title="var">p</span>) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">M</span> (<span class="id" title="var">m</span>~ <span class="id" title="var">p</span>)) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">M_L_to_L</span>: <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, (<span class="id" title="var">M</span> (<span class="id" title="var">L</span> <span class="id" title="var">p</span>)) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">L</span> <span class="id" title="var">p</span>) ].<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">rB</span> : [ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <br/>
+<span class="id" title="var">p</span> <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">L</span> (<span class="id" title="var">M</span> <span class="id" title="var">p</span>)) ].<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">mp_M</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">q</span> : <span class="id" title="var">o</span>, <br/>
+(<span class="id" title="var">M</span> <span class="id" title="var">p</span>) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">L</span> (<span class="id" title="var">p</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">q</span>)) <span class="id" title="var">m</span>-&gt; (<span class="id" title="var">M</span> <span class="id" title="var">q</span>) ].<br/>
+ 
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">not_M_L_not</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">p</span> : <span class="id" title="var">o</span>, ( <span class="id" title="var">m</span>~ (<span class="id" title="var">M</span> <span class="id" title="var">p</span>)) <br/>
+&nbsp;&nbsp;<span class="id" title="var">m</span>-&gt; (<span class="id" title="var">L</span> (<span class="id" title="var">m</span>~ <span class="id" title="var">p</span>))].<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">mneq_sym</span> : <br/>
+[ <span class="id" title="var">mforall</span> <span class="id" title="var">x</span> : <span class="id" title="var">u</span>, <span class="id" title="var">mforall</span> <span class="id" title="var">y</span> : <span class="id" title="var">u</span>, <br/>
+&nbsp;&nbsp;<span class="id" title="var">x</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">y</span> <span class="id" title="var">m</span>-&gt; <span class="id" title="var">y</span> <span class="id" title="var">m</span>&lt;&gt; <span class="id" title="var">x</span> ].<br/>
+
+<br/>
+</div>
+<table>
+<tr>
+<td>Global Index</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td><a href="index.html#global_M">M</a></td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>_</td>
+<td>other</td>
+<td>(1 entry)</td>
+</tr>
+<tr>
+<td>Library Index</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td><a href="index.html#library_M">M</a></td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>_</td>
+<td>other</td>
+<td>(1 entry)</td>
+</tr>
+</table>
+<hr/>
+<h1>Global Index</h1>
+<a name="global_M"></a><h2>M </h2>
+<a href="MML.html">MML</a> [library]<br/>
+<br/><br/><hr/>
+<h1>Library Index</h1>
+<a name="library_M"></a><h2>M </h2>
+<a href="MML.html">MML</a> <br/>
+<br/><br/><hr/><table>
+<tr>
+<td>Global Index</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td><a href="index.html#global_M">M</a></td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>_</td>
+<td>other</td>
+<td>(1 entry)</td>
+</tr>
+<tr>
+<td>Library Index</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td><a href="index.html#library_M">M</a></td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>_</td>
+<td>other</td>
+<td>(1 entry)</td>
+</tr>
+</table>
+<hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
